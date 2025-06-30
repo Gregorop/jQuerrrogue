@@ -1,10 +1,22 @@
-function Enemy(map) {
+function Enemy(map, enemy_list) {
     this.step_prob = 0.05
 
     this.init = function(){
         this.map = map;
         this.pos = map.get_random_empty_cell();
+        this.enemy_list = enemy_list;
+        this.enemy_list.push(this);
         map.spawn_item(this.pos.x,this.pos.y,"E");
+    }
+
+    this.under_attack = function(x,y){
+        if (Math.abs(this.pos.x-x) <= 1 && Math.abs(this.pos.y - y) <= 1){
+            this.map.grid[this.pos.y][this.pos.x] = 'bg';
+            index = this.enemy_list.indexOf(this);
+            if (index !== -1) {
+                this.enemy_list.splice(index, 1);
+            }
+        }
     }
 
     this.make_step = function(){

@@ -31,6 +31,15 @@ function Hero(map) {
         }
     }
 
+    this.attack = function(){
+        if (this.inventory.includes("sword")){
+            this.enemy_list.forEach(enemy => enemy.under_attack(this.pos.x, this.pos.y));
+        }
+        else{
+            alert('сначала залутай меч!')
+        }
+    }
+
     this.setup_controls = function() {
         document.addEventListener('keydown', (e) => {
             switch(e.key) {
@@ -45,6 +54,9 @@ function Hero(map) {
                     break;
                 case 'd': 
                     this.make_step(1,0); 
+                    break;
+                case ' ':
+                    this.attack();
                     break;
                 default: 
                     return;

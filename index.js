@@ -8,10 +8,10 @@ function Game() {
         this.hero.init();
         this.hero.setup_controls();
         for (var i = 0; i < 10; i++) {
-            var enemy = new Enemy(this.map);
+            var enemy = new Enemy(this.map, this.enemies);
             enemy.init();
-            this.enemies.push(enemy);
         }
+        this.hero.enemy_list = this.enemies;
 
         this.gameLoop();
     };
