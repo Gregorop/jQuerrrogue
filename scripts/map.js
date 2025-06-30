@@ -44,27 +44,33 @@ function GameMap() {
             }
         }
 
+    this.cell_is_empty = function(x,y){
+        return this.grid[y][x] === 'bg'
+    }
+
+    this.get_random_empty_cell = function() {
+        let x, y;
+        attempts = this.widthN * this.heightN
+        do {
+            x = Math.floor(Math.random() * (this.widthN - 2)) + 1;
+            y = Math.floor(Math.random() * (this.heightN - 2)) + 1;
+            attempts--;
+        } while (!this.cell_is_empty(x,y)&&attempts>0);
+        if (attempts == 0){
+            console.error('расширение территории...')
+            this.grid[y][x] = 'bg'
+        }
+        return { x, y };
+    };
+
     this.spawn_item = function(x,y,type){
-        if (this.grid[y][x] === "bg"){
-            this.grid[y][x] = type;
-            return true
-        }
-        else{
-            return false
-        }
-        
+        this.grid[y][x] = type;
     }
 
     this.spawn_N_items = function(n,type){
-        items = 0
-        attempts = this.widthN * this.heightN
-        while (items < n && attempts > 0) {
-            attempts--;
-            var x = this.randomX();
-            var y = this.randomY();
-            if (this.spawn_item(x, y, type)){
-                items++
-            }
+        for (var items = 0; items < n; items++) {
+            pos = this.get_random_empty_cell();
+            this.spawn_item(pos.x, pos.y, type);
         }
     }
 
