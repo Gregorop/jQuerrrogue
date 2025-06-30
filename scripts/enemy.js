@@ -1,7 +1,8 @@
-function Enemy(map, enemy_list) {
+function Enemy(map, enemy_list, hero) {
     this.step_prob = 0.05
 
     this.init = function(){
+        this.hero = hero;
         this.map = map;
         this.pos = map.get_random_empty_cell();
         this.enemy_list = enemy_list;
@@ -32,6 +33,10 @@ function Enemy(map, enemy_list) {
                     this.pos.x = newX;
                     this.pos.y = newY;
                 }
+                if (this.map.grid[newY][newX] == "P"){
+                    this.hero.take_damage(30);
+                }
+
             }
         }
     }
